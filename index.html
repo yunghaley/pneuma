@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PNEUMA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────────────── */
+    :root {
+      --bg:       #0A0A0A;
+      --bg-2:     #111111;
+      --text:     #F0EDE8;
+      --text-dim: #888880;
+      --line:     1px solid #222;
+
+      --serif:  'Cormorant Garamond', Georgia, serif;
+      --sc:     'Cormorant SC', Georgia, serif;
+      --sans:   'DM Sans', system-ui, sans-serif;
+
+      /* iridescent: subtle titanium / anodized metal shimmer */
+      --iris: linear-gradient(
+        90deg,
+        transparent 0%,
+        #9ca8b0 10%,
+        #b8cdd8 25%,
+        #d4c8dc 40%,
+        #c8d8c8 55%,
+        #d8c4b8 70%,
+        #9ca8b0 85%,
+        transparent 100%
+      );
+    }
+
+    /* ── RESET ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: #ffffff18; }
+
+    /* ── IRIS LINE ──────────────────────────────────────────────── */
+    .iris-line {
+      height: 1px;
+      background: var(--iris);
+      opacity: 0.6;
+    }
+    .iris-line--anim {
+      animation: iris-shift 6s linear infinite;
+    }
+    @keyframes iris-shift {
+      0%   { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    /* ── NAV ────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+      background: linear-gradient(to bottom, #0A0A0Aee 0%, transparent 100%);
+      transition: background 0.3s;
+    }
+    nav.solid { background: #0A0A0Af5; border-bottom: var(--line); }
+
+    .wordmark {
+      font-family: var(--sc);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.25em;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .wordmark .glyph {
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1;
+      font-weight: 400;
+      opacity: 0.85;
+    }
+
+    .nav-cta {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      border-bottom: 1px solid #333;
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-cta:hover { color: var(--text); border-color: #666; }
+
+    /* ── HERO ───────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-glyph {
+      position: absolute;
+      top: 50%;
+      right: -4vw;
+      transform: translateY(-50%);
+      font-family: var(--serif);
+      font-size: clamp(300px, 45vw, 700px);
+      font-weight: 400;
+      color: #ffffff04;
+      line-height: 1;
+      user-select: none;
+      pointer-events: none;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-label {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+    }
+
+    .hero-manifesto {
+      font-family: var(--serif);
+      font-size: clamp(36px, 5.5vw, 84px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      max-width: 900px;
+      position: relative;
+    }
+
+    .hero-manifesto em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    /* ── SECTION DEFAULTS ───────────────────────────────────────── */
+    section { padding: 120px 48px; }
+    .inner { max-width: 1200px; margin: 0 auto; }
+
+    .section-label {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 64px;
+    }
+
+    /* ── TAGLINES ───────────────────────────────────────────────── */
+    .taglines {
+      background: var(--bg);
+      padding: 80px 48px 120px;
+    }
+    .taglines .inner {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .tagline-item {
+      padding: 40px 0;
+      border-bottom: var(--line);
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.5vw, 52px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .tagline-item:first-child { border-top: var(--line); }
+    .tagline-num {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      min-width: 24px;
+      align-self: center;
+      padding-top: 4px;
+    }
+
+    /* ── THE OBJECT ─────────────────────────────────────────────── */
+    .object-section { background: var(--bg-2); }
+    .object-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .object-visual {
+      aspect-ratio: 3/4;
+      background: linear-gradient(145deg, #1a1a1a 0%, #141414 50%, #1c1c1c 100%);
+      border: var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+    .object-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        transparent 40%,
+        rgba(180,195,205,0.04) 55%,
+        rgba(200,185,210,0.06) 60%,
+        rgba(180,210,185,0.04) 65%,
+        transparent 75%
+      );
+    }
+    .object-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .object-glyph-small {
+      font-family: var(--serif);
+      font-size: 80px;
+      color: #1e1e1e;
+      user-select: none;
+    }
+    .object-copy h2 {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      margin-bottom: 32px;
+    }
+    .object-copy p {
+      font-size: 15px;
+      line-height: 1.75;
+      color: #b0ada8;
+      max-width: 440px;
+      margin-bottom: 48px;
+    }
+    .spec-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .spec-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: var(--line);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+    .spec-list li span:first-child {
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+    }
+    .spec-list li span:last-child { color: var(--text); }
+
+    /* ── THE SYSTEM ─────────────────────────────────────────────── */
+    .system-section { background: var(--bg); }
+    .system-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .system-copy h2 {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      margin-bottom: 32px;
+    }
+    .system-copy p {
+      font-size: 15px;
+      line-height: 1.75;
+      color: #b0ada8;
+      max-width: 440px;
+    }
+
+    /* modular grid icon */
+    .module-grid-icon {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: min(320px, 100%);
+      margin: 0 auto;
+    }
+    .module-cell {
+      aspect-ratio: 1;
+      border: 1px solid #2a2a2a;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s;
+    }
+    .module-cell::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: var(--iris);
+      transition: opacity 0.4s;
+    }
+    .module-cell:hover { border-color: #444; }
+    .module-cell:hover::after { opacity: 0.15; }
+
+    .module-cell--filled {
+      background: #141414;
+    }
+    .module-label {
+      position: absolute;
+      bottom: 12px;
+      left: 14px;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* ── PHILOSOPHY PULL QUOTE ──────────────────────────────────── */
+    .philosophy {
+      background: var(--bg);
+      padding: 0 48px 120px;
+    }
+    .pull-quote {
+      border-left: 1px solid #2a2a2a;
+      padding: 0 0 0 40px;
+      max-width: 760px;
+    }
+    .pull-quote blockquote {
+      font-family: var(--serif);
+      font-size: clamp(22px, 2.8vw, 36px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.45;
+      color: #d8d4ce;
+      margin-bottom: 24px;
+    }
+    .pull-quote cite {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-style: normal;
+    }
+
+    /* ── NOTIFY ─────────────────────────────────────────────────── */
+    .notify {
+      background: var(--bg-2);
+      padding: 160px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .notify-bg-glyph {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--serif);
+      font-size: clamp(200px, 35vw, 500px);
+      color: #ffffff03;
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .notify .inner { position: relative; z-index: 1; }
+
+    .notify h2 {
+      font-family: var(--sc);
+      font-size: clamp(52px, 10vw, 130px);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+    .notify-sub {
+      font-size: 14px;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      margin-bottom: 64px;
+    }
+    .notify-form {
+      display: flex;
+      gap: 0;
+      max-width: 480px;
+      margin: 0 auto;
+      border-bottom: 1px solid #333;
+    }
+    .notify-form input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      padding: 16px 0;
+    }
+    .notify-form input::placeholder { color: #44443e; }
+    .notify-form button {
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      color: var(--text-dim);
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 16px 0 16px 24px;
+      transition: color 0.2s;
+    }
+    .notify-form button:hover { color: var(--text); }
+
+    /* ── FOOTER ─────────────────────────────────────────────────── */
+    footer {
+      padding: 40px 48px;
+      border-top: var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer .wordmark { opacity: 0.5; }
+    footer p {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav, section, .hero, .taglines, .philosophy, .notify, footer {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      .object-grid, .system-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .object-visual { aspect-ratio: 4/3; }
+      .module-grid-icon { max-width: 240px; }
+      nav { padding: 20px 24px; }
+    }
+
+    /* ── SCROLL REVEAL (lightweight) ────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────────────── -->
+  <nav id="nav">
+    <a href="#" class="wordmark">
+      <span class="glyph">器</span>
+      <span>PNEUMA</span>
+    </a>
+    <a href="#notify" class="nav-cta">Early Access</a>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-bg-glyph" aria-hidden="true">器</div>
+    <p class="hero-label">器 PNEUMA — The Object</p>
+    <h1 class="hero-manifesto">
+      Just as our Qi needs<br>
+      to be held in<br>
+      <em>equilibrium,</em><br>
+      the brand strikes<br>
+      a perfect balance<br>
+      between the man-made<br>
+      and nature.
+    </h1>
+  </section>
+
+  <div class="iris-line iris-line--anim"></div>
+
+  <!-- ── TAGLINES ──────────────────────────────────────────────── -->
+  <div class="taglines">
+    <div class="inner">
+      <div class="tagline-item reveal">
+        <span class="tagline-num">01</span>
+        For the conscious.
+      </div>
+      <div class="tagline-item reveal">
+        <span class="tagline-num">02</span>
+        For those that travel down the unbeaten path.
+      </div>
+      <div class="tagline-item reveal">
+        <span class="tagline-num">03</span>
+        For the discerning.
+      </div>
+    </div>
+  </div>
+
+  <div class="iris-line"></div>
+
+  <!-- ── THE OBJECT ────────────────────────────────────────────── -->
+  <section class="object-section">
+    <div class="inner">
+      <p class="section-label reveal">The Object</p>
+      <div class="object-grid">
+        <div class="object-visual reveal">
+          <div class="object-placeholder">
+            <span class="object-glyph-small">器</span>
+          </div>
+        </div>
+        <div class="object-copy">
+          <h2 class="reveal">
+            Precision-machined.<br>Built to last.
+          </h2>
+          <p class="reveal">
+            CNC-milled from aerospace-grade aluminum. Each case begins as a solid billet and is cut to tolerances of ±0.01mm — the same process used in high-end watchmaking and aerospace components. Nothing is assembled. Nothing is glued. It holds.
+          </p>
+          <ul class="spec-list reveal">
+            <li>
+              <span>Material</span>
+              <span>6061-T6 Aluminum / Grade 5 Titanium</span>
+            </li>
+            <li>
+              <span>Finish</span>
+              <span>Type III Hard Anodize</span>
+            </li>
+            <li>
+              <span>Compatibility</span>
+              <span>iPhone 15 Pro</span>
+            </li>
+            <li>
+              <span>MagSafe</span>
+              <span>Integrated N52 ring array</span>
+            </li>
+            <li>
+              <span>System</span>
+              <span>4-position modular rail</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="iris-line"></div>
+
+  <!-- ── PHILOSOPHY ────────────────────────────────────────────── -->
+  <div class="philosophy">
+    <div class="inner">
+      <div class="pull-quote reveal">
+        <blockquote>
+          "The object that protects your most personal tool should itself be an object worth owning. Not a skin. Not a shield. A considered thing."
+        </blockquote>
+        <cite>器 — Vessel. Instrument. Form with purpose.</cite>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── THE SYSTEM ────────────────────────────────────────────── -->
+  <section class="system-section">
+    <div class="inner">
+      <p class="section-label reveal">The System</p>
+      <div class="system-grid">
+        <div class="system-copy">
+          <h2 class="reveal">
+            One chassis.<br>Infinite configurations.
+          </h2>
+          <p class="reveal">
+            A modular rail system built into the backplate accepts purpose-built accessories — wallet, grip, stand, lens mount — each machined to the same standard as the case itself. Nothing clips. Nothing flexes. Everything locks.
+          </p>
+        </div>
+        <div class="reveal">
+          <div class="module-grid-icon" aria-label="Modular system diagram">
+            <div class="module-cell module-cell--filled">
+              <span class="module-label">Case</span>
+            </div>
+            <div class="module-cell">
+              <span class="module-label">Wallet</span>
+            </div>
+            <div class="module-cell">
+              <span class="module-label">Grip</span>
+            </div>
+            <div class="module-cell module-cell--filled">
+              <span class="module-label">Stand</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="iris-line iris-line--anim"></div>
+
+  <!-- ── NOTIFY ────────────────────────────────────────────────── -->
+  <section class="notify" id="notify">
+    <div class="notify-bg-glyph" aria-hidden="true">器</div>
+    <div class="inner">
+      <h2 class="reveal">PNEUMA</h2>
+      <p class="notify-sub reveal">Early access. Limited units. Built once, built right.</p>
+      <form class="notify-form reveal" onsubmit="handleSubmit(event)">
+        <input
+          type="email"
+          placeholder="your@email.com"
+          required
+          autocomplete="email"
+          id="email-input"
+        >
+        <button type="submit">Notify Me</button>
+      </form>
+      <p id="form-confirm" style="display:none; margin-top:24px; font-size:13px; color:#888880; letter-spacing:0.1em;">
+        You're on the list.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ────────────────────────────────────────────────── -->
+  <footer>
+    <a href="#" class="wordmark">
+      <span class="glyph">器</span>
+      <span>PNEUMA</span>
+    </a>
+    <p>© 2026 PNEUMA. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // ── Nav solidify on scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('solid', window.scrollY > 60);
+    }, { passive: true });
+
+    // ── Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+    reveals.forEach(el => observer.observe(el));
+
+    // ── Email form
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.querySelector('.notify-form').style.display = 'none';
+      document.getElementById('form-confirm').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
