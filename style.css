@@ -1,0 +1,272 @@
+/* ── TOKENS ─────────────────────────────────────────────────── */
+:root {
+  --text:      #FFFCF7;
+  --text-dim:  #2C2C2A;
+  --text-over: #FFFCF7;
+
+  --serif: 'Libertinus Mono', Georgia, serif;
+  --sans-serif: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  --logo:  'Arial Black', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ── RESET ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(
+    180deg,
+    #FFFCF7 0%,
+    #B2D8D8 15%,
+    #9DC4B0 55%,
+    #00796B 85%,
+    #FFFCF7 100%
+  );
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.7;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ────────────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 28px 40px;
+}
+
+.wordmark {
+  grid-column: 2;
+  justify-self: center;
+  font-family: var(--logo);
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.wordmark-logo {
+  height: 20px;
+  width: auto;
+  display: block;
+}
+
+.wordmark-text {
+  display: none;
+}
+
+.wordmark-logo[data-error],
+.wordmark img:not([src]),
+.wordmark img[src=""] {
+  display: none;
+}
+
+.wordmark-logo[data-error] ~ .wordmark-text {
+  display: inline;
+}
+
+.nav-icon {
+  grid-column: 3;
+  justify-self: end;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1;
+  padding: 4px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.nav-icon:hover { opacity: 1; }
+
+/* ── FIXED IMAGE PLACEHOLDERS ───────────────────────────────── */
+/* Images are pinned to the viewport — only opacity changes on scroll */
+.placeholder {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.85s ease;
+  pointer-events: none;
+  object-fit: cover;
+  display: block;
+}
+
+.placeholder.portrait {
+  width: min(460px, 80vw);
+  aspect-ratio: 3 / 4;
+}
+
+.placeholder.landscape {
+  width: min(820px, 92vw);
+  aspect-ratio: 16 / 9;
+}
+
+.placeholder.product {
+  width: 90vw;
+  aspect-ratio: 16 / 7;
+}
+
+.placeholder.visible {
+  opacity: 1;
+}
+
+/* ── SECTIONS ───────────────────────────────────────────────── */
+/* Sections sit above fixed images in the stacking order */
+section {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 120px 48px;
+  scroll-snap-align: start;
+}
+
+h1 {
+  position: relative;
+  z-index: 1;
+  font-family: var(--sans-serif);
+  font-weight: 900;
+  font-size: clamp(32px, 5.5vw, 80px);
+  line-height: 1.05;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.body-text {
+  position: relative;
+  z-index: 1;
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text);
+  max-width: 440px;
+  text-align: center;
+}
+
+/* Editorial sections — text over dark images uses light colour */
+.editorial h1,
+.editorial .body-text {
+  color: var(--text);
+}
+
+/* ── WAITLIST ───────────────────────────────────────────────── */
+.waitlist {
+  min-height: 80vh;
+}
+
+.email-form {
+  display: flex;
+  max-width: 440px;
+  width: 100%;
+  border-bottom: 1px solid var(--text);
+}
+
+.email-form input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--serif);
+  font-size: 14px;
+  color: var(--text);
+  padding: 12px 0;
+}
+
+.email-form input::placeholder { color: var(--text-dim); }
+
+.email-form button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--text);
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  color: var(--text);
+  padding: 12px 0 12px 20px;
+  transition: opacity 0.2s;
+}
+.email-form button:hover { opacity: 0.5; }
+
+.form-confirm {
+  display: none;
+  font-size: 13px;
+  color: var(--text-over);
+  letter-spacing: 0px;
+}
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+footer {
+  position: relative;
+  z-index: 1;
+  padding: 40px 48px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-over
+  );
+  letter-spacing: 0.1em;
+}
+
+/* ── GRAIN ──────────────────────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -150px;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.245;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  animation: grain 0.4s steps(1) infinite;
+}
+
+@keyframes grain {
+  0%  { transform: translate(0px,   0px); }
+  10% { transform: translate(-20px, -40px); }
+  20% { transform: translate(-60px,  20px); }
+  30% { transform: translate( 28px, -80px); }
+  40% { transform: translate(-20px,  80px); }
+  50% { transform: translate(-60px,  40px); }
+  60% { transform: translate( 60px,  0px); }
+  70% { transform: translate(  0px,  60px); }
+  80% { transform: translate( 12px, 100px); }
+  90% { transform: translate(-40px,  40px); }
+}
+
+/* ── SCROLL FADE (text only — images use .placeholder.visible) ── */
+.reveal {
+  opacity: 0;
+  transition: opacity 0.85s ease;
+}
+.reveal.visible {
+  opacity: 1;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  nav { padding: 22px 24px; }
+  section, footer { padding-left: 24px; padding-right: 24px; }
+}
