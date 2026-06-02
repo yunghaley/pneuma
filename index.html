@@ -21,7 +21,7 @@
 
   <!-- ── TO HOLD ──────────────────────────────────────────────── -->
   <section class="editorial">
-    <div class="placeholder portrait"></div>
+    <img class="scene portrait" src="assets/images/toHold.jpg" alt="To Hold">
     <h1 class="reveal">To Hold</h1>
     <p class="body-text reveal">
       The object that protects your most personal device should itself be an object of worth.
@@ -30,7 +30,7 @@
 
   <!-- ── IN EQUILIBRIUM ───────────────────────────────────────── -->
   <section class="editorial">
-    <div class="placeholder landscape"></div>
+    <img class="scene landscape" src="assets/images/inEquilibrium.jpg" alt="In Equilibrium">
     <h1 class="reveal">In Equilibrium</h1>
     <p class="body-text reveal">
       Considered in every way.
@@ -39,7 +39,7 @@
 
   <!-- ── BUILT TO LAST ─────────────────────────────────────────── -->
   <section class="product-section">
-    <img class="placeholder product" src="assets/images/auraCase_backQuarter_1.png" alt="VIS Aura Case — back quarter view">
+    <img class="scene product" src="assets/images/auraCase_backQuarter_1.png" alt="VIS Aura Case — back quarter view">
     <h1 class="reveal">Built to Last</h1>
     <p class="body-text reveal">
       Precise functional beauty. CNC-milled aluminium, cut to spec, lathed in suede.
@@ -48,7 +48,7 @@
 
   <!-- ── ONE CHASSIS ──────────────────────────────────────────── -->
   <section class="product-section">
-    <img class="placeholder product" src="assets/images/auraCase_backQuarter_2.png" alt="VIS Aura Case — modular rail view">
+    <img class="scene product" src="assets/images/auraCase_backQuarter_2.png" alt="VIS Aura Case — modular rail view">
     <h1 class="reveal">One Chassis</h1>
     <p class="body-text reveal">
       Everything it should be, nothing it shouldn't.
@@ -57,7 +57,7 @@
 
   <!-- ── INFINITE FORMS ────────────────────────────────────────── -->
   <section class="product-section">
-    <img class="placeholder product" src="assets/images/auraCase_backQuarter_3.png" alt="VIS Aura Case — with attachments">
+    <img class="scene product" src="assets/images/auraCase_backQuarter_3.png" alt="VIS Aura Case — with attachments">
     <h1 class="reveal">Infinite Forms</h1>
     <p class="body-text reveal">
       A rail and MagSafe system engineered for perfect fit, unlocking limitless customization.
@@ -84,11 +84,12 @@
     <p>© 2026 VIS. All rights reserved.</p>
   </footer>
 
+  <script src="assets/js/dither.js"></script>
   <script>
     // ── Image placeholders: fade in when parent section is in view
     const imageObserver = new IntersectionObserver(
       entries => entries.forEach(e => {
-        const img = e.target.querySelector('.placeholder');
+        const img = e.target.querySelector('.scene');
         if (img) img.classList.toggle('visible', e.isIntersecting);
       }),
       { threshold: 0.2 }
